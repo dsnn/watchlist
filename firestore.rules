@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isMember() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/members/$(request.auth.uid));
+    }
+
+    match /catalog/{documentId} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+
+    match /members/{userId} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+
+    match /watchState/{userId} {
+      allow read: if isMember();
+      allow create, update: if isMember()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['watched'])
+        && request.resource.data.watched is map;
+      allow delete: if isMember() && request.auth.uid == userId;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

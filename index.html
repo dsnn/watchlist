@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="En privat, sökbar lista över filmer och serier.">
+    <title>Watchlist</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <section id="auth-view" class="auth-view" aria-labelledby="login-heading">
+        <div class="auth-card">
+          <p class="eyebrow">WATCHLIST</p>
+          <h1 id="login-heading">Logga in</h1>
+          <form id="login-form">
+            <label for="email">
+              <span>E-post</span>
+              <input id="email" name="email" type="email" autocomplete="username" required>
+            </label>
+            <label for="password">
+              <span>Lösenord</span>
+              <input id="password" name="password" type="password" autocomplete="current-password" required>
+            </label>
+            <button id="login-button" type="submit">Logga in</button>
+          </form>
+          <button id="reset-password" class="text-button" type="button">Glömt lösenordet?</button>
+          <p id="auth-message" class="message" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="app-view" hidden>
+        <header>
+          <div class="header-row">
+            <h1>WATCHLIST</h1>
+            <div class="session">
+              <span id="session-name"></span>
+              <button id="logout-button" class="secondary-button" type="button">Logga ut</button>
+            </div>
+          </div>
+          <p id="summary" class="summary" aria-live="polite">Läser in titlar…</p>
+          <p id="app-message" class="message" role="status" aria-live="polite"></p>
+        </header>
+
+        <section class="filters" aria-label="Filtrera listan">
+          <label class="search" for="search">
+            <span>Sök</span>
+            <input id="search" type="search" placeholder="Titel, år eller genre…" autocomplete="off" disabled>
+          </label>
+
+          <label for="media-type">
+            <span>Typ</span>
+            <select id="media-type" disabled>
+              <option value="all">Filmer och serier</option>
+              <option value="movie">Filmer</option>
+              <option value="series">Serier</option>
+            </select>
+          </label>
+
+          <label for="genre">
+            <span>Genre</span>
+            <select id="genre" disabled>
+              <option value="all">Alla genrer</option>
+            </select>
+          </label>
+
+          <label for="watched-filter">
+            <span>Sett-status</span>
+            <select id="watched-filter" disabled>
+              <option value="all">Alla</option>
+              <option value="none">Ingen har sett</option>
+              <option id="first-member-filter" value="member-one">Första medlemmen har sett</option>
+              <option id="second-member-filter" value="member-two">Andra medlemmen har sett</option>
+              <option value="both">Båda har sett</option>
+            </select>
+          </label>
+
+          <label for="sort-by">
+            <span>Sortera efter</span>
+            <select id="sort-by" disabled>
+              <option value="title">Namn</option>
+              <option value="rating">Betyg</option>
+            </select>
+          </label>
+
+          <label for="sort-direction">
+            <span>Ordning</span>
+            <select id="sort-direction" disabled>
+              <option value="asc">Stigande</option>
+              <option value="desc">Fallande</option>
+            </select>
+          </label>
+
+          <label class="rating-filter" for="minimum-rating">
+            <span>Minsta betyg: <output id="rating-value" for="minimum-rating">Alla</output></span>
+            <input id="minimum-rating" type="range" min="0" max="10" step="0.25" value="0" disabled>
+          </label>
+
+          <div class="suggestion-controls">
+            <button id="suggest-button" type="button" disabled>Överraska mig</button>
+          </div>
+        </section>
+
+        <section id="suggestions" class="suggestions" hidden>
+          <div class="suggestions-heading">
+            <p class="suggestions-label">Kvällens förslag</p>
+            <button id="close-suggestions" class="close-suggestions" type="button" aria-label="Stäng förslagen">×</button>
+          </div>
+          <ul id="suggestion-list" class="media-list suggestion-list" aria-label="Slumpade förslag"></ul>
+          <p id="suggestion-empty" class="empty-state" hidden>Det finns inga titlar som matchar filtren.</p>
+        </section>
+
+        <ul id="media-list" class="media-list" aria-label="Filmer och serier"></ul>
+        <p id="empty-state" class="empty-state" hidden>Inga titlar matchade filtren.</p>
+      </section>
+    </main>
+  </body>
+</html>
